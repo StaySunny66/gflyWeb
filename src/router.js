@@ -9,6 +9,7 @@ import FindView from "@/views/FindView.vue";
 import Login from "@/Page/Login.vue";
 import RegisterSenior from "@/views/RegisterSenior.vue";
 import sideLogo from  "@/assets/sideLogo.png"
+import mapView from  "@/views/MapView.vue";
 const routes = [
     { path: '/', component: Dashboard },
     { path: '/about', component: About },
@@ -18,6 +19,7 @@ const routes = [
     { path: '/Login', component: Login},
     { path: '/RegisterSenior',component: RegisterSenior},
     { path: '/sideLogo.png',component: sideLogo},
+    { path: '/MapView',component: mapView},
 ];
 
 const router = createRouter({

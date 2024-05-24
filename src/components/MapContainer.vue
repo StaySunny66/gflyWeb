@@ -1,44 +1,54 @@
+<template>
+  <div id="container"></div>
+</template>
+
 <script setup>
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
+
+// 使用 ref 创建响应式数据存储经纬度
+const latitude = ref(39.90923);
+const longitude = ref(116.397428);
 
 let map = null;
 
+
+const props = defineProps({
+  latitude :  12.2,
+  longitude : 20.0,
+
+
+})
+
 onMounted(() => {
   AMapLoader.load({
-    key: "00fa52820d61c178fb71a42f750d30f1", // 申请好的Web端开发者Key，首次调用 load 时必填
-    version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-    plugins: [], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+    key: "00fa52820d61c178fb71a42f750d30f1",
+    version: "2.0",
+    plugins: [],
   })
       .then((AMap) => {
         map = new AMap.Map("container", {
-          // 设置地图容器id
-          viewMode: "3D", // 是否为3D地图模式
-          zoom: 11, // 初始化地图级别
-          center: [116.397428, 39.90923], // 初始化地图中心点位置
+          viewMode: "3D",
+          zoom: 11,
+          // 将经纬度绑定到地图的中心点位置
+          center: [longitude.value, latitude.value],
         });
       })
       .catch((e) => {
         console.log(e);
       });
+
 });
 
 onUnmounted(() => {
   map?.destroy();
 });
 
-
-
 </script>
 
-<template>
-  <div id="container"></div>
-
-</template>
-
 <style scoped>
-#container{
-  padding:0px;
+#container {
+  padding: 0px;
   margin: 0px;
   width: 100%;
   height: 500px;

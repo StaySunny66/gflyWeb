@@ -30,8 +30,7 @@
                     <span>飞行搜救</span>
                   </template>
                   <el-menu-item index="/FindView">人员搜救</el-menu-item>
-                  <el-menu-item index="2-2">环境评估</el-menu-item>
-                  <el-menu-item index="2-3">等等等待</el-menu-item>
+                  <el-menu-item index="/MapView">环境评估</el-menu-item>
                 </el-sub-menu>
 
                 <el-sub-menu index="3">
@@ -44,10 +43,6 @@
                   <el-menu-item index="/RegisterSenior">传感器注册</el-menu-item>
                 </el-sub-menu>
 
-                <el-menu-item index="4" >
-                  <el-icon><document /></el-icon>
-                  <span>飞行数据(黑匣子)</span>
-                </el-menu-item>
                 <el-menu-item index="5">
                   <el-icon><setting /></el-icon>
                   <span>自由飞行</span>
