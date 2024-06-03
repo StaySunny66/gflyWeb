@@ -43,10 +43,6 @@
                   <el-menu-item index="/RegisterSenior">传感器注册</el-menu-item>
                 </el-sub-menu>
 
-                <el-menu-item index="5">
-                  <el-icon><setting /></el-icon>
-                  <span>自由飞行</span>
-                </el-menu-item>
               </el-menu>
 
 
@@ -78,7 +74,7 @@
 import dHeader from './components/Header.vue'
 import {onMounted, ref} from 'vue'
 import axios, {create} from 'axios'
-const baseURL = 'https://gfly.shilight.cn/plane/get';
+const baseURL = 'http://gfly.shilight.cn/plane/get';
 
 import {
   Document,
@@ -149,7 +145,7 @@ const checkLogin = ()=>{
 
     console.log('没有Token，跳转到登录界面');
     // 如果本地存储中不存在该数据，跳转到登良界面
-    router.push('/Login' )
+     router.push('/Login' )
 
   }
 

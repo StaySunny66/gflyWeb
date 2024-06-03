@@ -26,14 +26,6 @@
         </el-form-item>
 
 
-        <el-text style="display: block;font-size: 20px;color: #E76F51">开机自启动</el-text>
-
-        <el-form-item label="开启自启动后传感器会在飞机启动后自动记录数据并上传数据库">
-          <el-switch v-model="form.AutoEn" />
-
-
-        </el-form-item>
-
         <el-text style="display: block;font-size: 20px;color: #E76F51">地图可视化</el-text>
 
         <el-form-item label="开启地图可视化功能后可结合热力图功能实现传感器数据和地图的融合">
@@ -107,7 +99,7 @@ const onSubmit = async () => {
     formData.append('name', form.name);
     formData.append('SeniorMapEn', form.seniorMapEn);
     formData.append('SeniorViewEn', form.seniorViewEn);
-    formData.append('AutoEn', form.AutoEn);
+    formData.append('AutoEn', false);
     formData.append('Others', form.Others);
 
 

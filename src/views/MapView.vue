@@ -8,6 +8,7 @@ import axios from "axios";
 // 下拉框 选择传感器
 const options = ref([]);
 const value = ref('')
+const xValue = ref(20)
 
 
 
@@ -23,7 +24,7 @@ onMounted(async () => {
 
 
   try {
-    const response = await axios.get('http://127.0.0.1:8080/api/getMapSeniors'); // 替换为你的API地址
+    const response = await axios.get('http://localhost:8080/api/getMapSeniors'); // 替换为你的API地址
     options.value  = response.data.data
     console.log(response.data)
 
@@ -87,16 +88,27 @@ onMounted(async () => {
 });
 
 
+
+const xchange = () =>{
+
+  onchane()
+
+}
+
+
+
+
 const onchane = async () =>{
   console.log("change",value)
+  console.log("Xchange",xValue.value)
 
   const formData = new FormData();
-  formData.append('id', 99);
+  formData.append('id', value.value);
   formData.append('time', 100);
-  formData.append('x', 1);
+  formData.append('x', xValue.value);
 
   try {
-    const response = await axios.post('http://127.0.0.1:8080/api/getMapData', formData) // 替换为你的API地址
+    const response = await axios.post('http://localhost:8080/api/getMapData', formData) // 替换为你的API地址
 
     console.log(response.data)
 
@@ -181,12 +193,12 @@ onUnmounted(() => {
 
     </el-col>
 
-    <el-col :span="4">
+    <el-col :span="8" style="margin-left: 30px">
 
-
-
-
-
+        <el-slider v-model="xValue"
+                   :step="0.3"
+                   :max="50"
+        @change="xchange"/>
 
 
     </el-col>

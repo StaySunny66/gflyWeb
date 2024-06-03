@@ -10,7 +10,7 @@ import { ref, onMounted } from 'vue';
 const videoFrame = ref(null);
 
 onMounted(() => {
-  const ws = new WebSocket('ws://192.168.0.101:8765'); // 你的服务器地址和端口
+  const ws = new WebSocket('ws://192.168.0.102:8765'); // 你的服务器地址和端口
 
   ws.binaryType = 'arraybuffer'; // 设置数据类型为二进制数组
 

@@ -35,6 +35,8 @@ const onanglechange = () =>{
 
 /// 声明响应式数据
 const messages = ref([]);
+const fire = ref([]);
+
 const openPeople = ref(false);
 
 /// MQTT实现
@@ -50,6 +52,7 @@ client.on('connect', () => {
 
 client.on('message', (topic, payload) => {
   message.value =JSON.parse(payload.toString()).people;
+  fire.value = JSON.parse(payload.toString()).fire;
   console.log(message.value)
 });
 
@@ -119,7 +122,7 @@ var people = () =>{
             <div>
               <p style="color: #faecd8">可疑火灾</p>
 
-              <p style="color: rgba(255,0,0,0.3);font-size: 20px">{{ message }} 人</p>
+              <p style="color: rgba(255,0,0,0.3);font-size: 20px">{{ fire }} 人</p>
 
             </div>
 

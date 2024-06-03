@@ -12,7 +12,7 @@ let tableData = reactive([]);
 onMounted(async ()=>{
 
   try {
-    const response = await axios.get('http://127.0.0.1:8080/api/getSeniors'); // 替换为你的API地址
+    const response = await axios.get('http://localhost:8080/api/getSeniors'); // 替换为你的API地址
     tableData.splice(0, tableData.length, ...response.data.data);
     console.log(response.data)
   } catch (error) {
@@ -71,7 +71,6 @@ const handleDelete = async (index) => {
 
       <el-table :data="tableData"  style="width: 100%; background: rgba(231,111,81,0.12);">
         <el-table-column prop="seniorName" label="传感器名称" width="180" />
-        <el-table-column prop="autoEn" label="开机自启" width="100" />
         <el-table-column prop="seniorMapEn" label="地图显示" width="100" />
         <el-table-column prop="seniorViewEn" label="首页显示" width="100"/>
 

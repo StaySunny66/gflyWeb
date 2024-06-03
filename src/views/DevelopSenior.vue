@@ -104,41 +104,111 @@ const reSetCode = () =>{
 
 
 
-     code.value='# 云上可编程平台\n' +
-         '# 模板代码\n' +
+     code.value= '########################################\n' +
+         '# Gfly Cloud Programing Platform\n' +
+         '# coding Example\n' +
+         '# @2024  Hevttc  Gao Xvyang\n' +
+         '# Web shilight.cn\n' +
          '#####################################\n' +
-         '# 传感器变量编写\n' +
+         'import random\n' +
+         'import re\n' +
+         'import sys\n' +
+         'import time\n' +
+         'from math import sqrt, cos, sin, radians\n' +
          'from time import sleep\n' +
-         '# 请按照一下代码完成编写\n' +
-         'name = ["temp1","temp2",]\n' +
-         'va = [12.1,23,]\n' +
-         'units = ["摄氏度","华氏度"]\n' +
-         '########################################\n' +
          '\n' +
+         'import wiringpi\n' +
+         'from wiringpi import GPIO\n' +
+         '\n' +
+         'import requests\n' +
+         '\n' +
+         '# pls OverWrite this value to config the Senior\n' +
+         '\n' +
+         'name = "温度"  # The name of Senior\n' +
+         'va = None  # The Value of Senior\n' +
+         'units = "℃"  # Senior Unit\n' +
+         'fre = 1  # Simple Rate\n' +
+         'isopen = False  # if you want use this Senior pls change to True\n' +
+         '\n' +
+         '### 变量定义\n' +
+         'pin = 16\n' +
+         '\n' +
+         '\n' +
+         '##################  END ######################\n' +
+         '# 基于 warrypi 进行编程\n' +
+         '\n' +
+         '########################### 自定义 函数##############################\n' +
          '\n' +
          'def init():\n' +
-         '    ## 用户代码开始段\n' +
+         '    ## 用户代码开始段##########################################\n' +
+         '    # ******************************************************#\n' +
          '    print("传感器初始化")\n' +
          '\n' +
          '\n' +
-         '    ## 用户代码结束端\n' +
          '\n' +
+         '    # ******************************************************#\n' +
+         '    ## 用户代码结束段##########################################\n' +
          'def loop():\n' +
-         '    ## 用户代码开始段\n' +
-         '    print("传感器初始化")\n' +
+         '    global va\n' +
+         '    ## 用户代码开始段##########################################\n' +
+         '    # ******************************************************#\n' +
+         '    print("传感器数据获取")\n' +
          '\n' +
          '\n' +
          '\n' +
+         '     \n' +
+         '\n' +
+         '    ## 用户代码结束段##########################################\n' +
+         '    dataUpLoad()\n' +
+         '    time.sleep(1.0 / fre)\n' +
          '\n' +
          '\n' +
-         '    ## 用户代码结束端\n' +
-         '    sleep(0.1)\n' +
-         '    ## 数据上报\n' +
+         'def read_jwd():\n' +
+         '    try:\n' +
+         '        with open("config/coordinates.txt", "r") as f:\n' +
+         '            coordinates = f.read().strip()\n' +
+         '            latitude, longitude = map(float, coordinates.split(","))\n' +
+         '            return latitude, longitude\n' +
+         '    except FileNotFoundError:\n' +
+         '        print("Error: The file \'coordinates.txt\' does not exist.")\n' +
+         '        return None, None\n' +
+         '    except ValueError:\n' +
+         '        print("Error: Invalid coordinate format.")\n' +
+         '        return None, None\n' +
          '\n' +
          '\n' +
+         'def dataUpLoad():\n' +
+         '    # 定义 URL\n' +
+         '    url = \'http://127.0.0.1:8080/api/seniorUpload\'\n' +
+         '    # 获取当前传感器ID\n' +
+         '    script_name = sys.argv[0]\n' +
+         '    r = re.findall("Senior(.*?).py", script_name)\n' +
+         '    # 获得经纬度标识\n' +
+         '\n' +
+         '    # 定义请求数据\n' +
+         '    data = {\n' +
+         '        "seniorId": r[0],\n' +
+         '        "valueName": name,\n' +
+         '        "JD": 0,\n' +
+         '        "WD": 0,\n' +
+         '        "sampleTime": time.time() * 1000,  # 你的时间戳\n' +
+         '        "valueData": va,\n' +
+         '        "valueUnits": units\n' +
+         '    }\n' +
+         '\n' +
+         '    JD, WD = read_jwd();\n' +
+         '    data[\'JD\'] = JD\n' +
+         '    data[\'WD\'] = WD\n' +
+         '\n' +
+         '    requests.post(url, data=data)\n' +
          '\n' +
          '\n' +
-         '\n'
+         'if open:\n' +
+         '    init()\n' +
+         'while True:\n' +
+         '    if isopen is not True:\n' +
+         '        break\n' +
+         '    loop()\n'
 
 
   }
@@ -230,7 +300,7 @@ const reGet = () =>{
 onMounted(async ()=>{
 
   try {
-    const response = await axios.get('http://127.0.0.1:8080/api/getSeniors'); // 替换为你的API地址
+    const response = await axios.get('http://localhost:8080/api/getSeniors'); // 替换为你的API地址
     options.value  = response.data.data
     console.log(response.data)
 

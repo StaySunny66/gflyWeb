@@ -2,6 +2,7 @@
 import mqtt from 'mqtt';
 import {onMounted, onUnmounted, ref} from 'vue';
 import AMapLoader from "@amap/amap-jsapi-loader";
+import axios from "axios";
 
 const customColors = [
   { color: '#f56c6c', percentage: 20 },
@@ -16,14 +17,15 @@ let path = []
 let polyline = null
 let marker = null
 
+const sensorData = ref([])
+
 
 onMounted(() => {
   AMapLoader.load({
     key: "00fa52820d61c178fb71a42f750d30f1",
     version: "2.0",
     plugins: [],
-  })
-      .then((AMap) => {
+  }).then((AMap) => {
 
 
         map = new AMap.Map("container", {
@@ -35,7 +37,7 @@ onMounted(() => {
 
 
 
-         polyline = new AMap.Polyline({
+      polyline = new AMap.Polyline({
            path: path,
            strokeColor: "green",
            strokeWeight: 6,
@@ -62,19 +64,21 @@ onMounted(() => {
         map.setFitView()
 
 
-
-
-
-
-
-
-
-
-
       })
       .catch((e) => {
         console.log(e);
       });
+
+
+  setInterval(() => {
+    axios.get('http://localhost:8080/api/getSeniorNew')
+        .then(response => {
+          sensorData.value = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }, 1000); // 每隔5秒钟访问一次API
 
 });
 
@@ -176,7 +180,7 @@ const publishMessage = () => {
     <h1>总览界面</h1>
 
     <el-row>
-      <el-col :span="12">
+      <el-col :span="10">
 
         <el-card class="box-card">
           <template #header>
@@ -202,13 +206,15 @@ const publishMessage = () => {
         <el-card class="box-card" style="  margin-top: 10px;">
           <template #header>
                 <div class="card-header">
-                  <span style="color: #f2f2f2">天气状况</span>
+                  <span style="color: #f2f2f2">传感器数据</span>
                 </div>
               </template>
               <div >
-                <p style="font-size: 20px;color: #f2f2f2">秦皇岛市 海港区</p>
-                <p style="font-size: 16px;color: #f2f2f2">-6 °C 晴朗</p>
-                <p style="font-size: 16px;color: #f2f2f2">西北风 3级</p>
+                <div>
+                  <div v-for="dataItem in sensorData" :key="dataItem.valueDataId">
+                    <p style="font-size: 16px;color: #f2f2f2">{{ dataItem.valueName }}: {{ dataItem.valueData }} {{ dataItem.valueUnits }}</p>
+                  </div>
+                </div>
 
 
               </div>
@@ -220,7 +226,7 @@ const publishMessage = () => {
 
 
       </el-col>
-      <el-col :span="12">
+      <el-col :span="14">
 
         <div id="container"></div>
 
@@ -262,8 +268,8 @@ const publishMessage = () => {
 }
 
 #container {
-  padding: 0px;
-  margin: 0px;
+  padding: 10px;
+
   width: 100%;
   height: 500px;
 }
